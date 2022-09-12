@@ -1,0 +1,9 @@
+{
+  "name": "vue3read",
+  "version": "1.0.0",
+  "description": "vue core read",
+  "main": "index.js",
+  "author": "haha",
+  "license": "MIT",
+  "private": false
+}
