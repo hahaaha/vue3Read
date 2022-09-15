@@ -31,19 +31,19 @@ test("create from an existing vnode", () => {
   })
 })
 
-// describe('style normalization', () => {
-//   test('array', () => {
-//     const vnode = createVNode('p', {
-//       style: [{ foo: 'foo' }, { baz: 'baz' }]
-//     })
-//     expect(vnode.props).toMatchObject({ style: { foo: 'foo', baz: 'baz' } })
-//   })
+describe('style normalization', () => {
+  test('array', () => {
+    const vnode = createVNode('p', {
+      style: [{ foo: 'foo' }, { baz: 'baz' }]
+    })
+    expect(vnode.props).toMatchObject({ style: { foo: 'foo', baz: 'baz' } })
+  })
 
-//   test('object', () => {
-//     const vnode = createVNode('p', { style: { foo: 'foo', baz: 'baz' } })
-//     expect(vnode.props).toMatchObject({ style: { foo: 'foo', baz: 'baz' } })
-//   })
-// })
+  test('object', () => {
+    const vnode = createVNode('p', { style: { foo: 'foo', baz: 'baz' } })
+    expect(vnode.props).toMatchObject({ style: { foo: 'foo', baz: 'baz' } })
+  })
+})
 
 describe('class normalization', () => {
   test('string', () => {

@@ -1,5 +1,5 @@
-import { isString } from "./shared"
-import { normalizeClass } from "./shared/normalizeProp"
+import { isString, isObject } from "./shared"
+import { normalizeClass, normalizeStyle } from "./shared/normalizeProp"
 const normalizeKey = ({ key }) => (key != null ? key : null)
 
 const isVNode = (value) => {
@@ -76,9 +76,12 @@ export const createVNode = (type, props, children) => {
   }
 
   if (props) {
-    const { class: klass } = props
+    const { class: klass, style } = props
     if (klass && !isString(klass)) {
       props.class = normalizeClass(klass)
+    }
+    if (isObject(style)) {
+      props.style = normalizeStyle(style)
     }
   }
 

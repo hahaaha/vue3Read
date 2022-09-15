@@ -20,3 +20,21 @@ export const normalizeClass = (value) => {
 
   return res.trim()
 }
+
+export const normalizeStyle = (value) => {
+  if (isArray(value)) {
+    const res = {}
+    for (let i = 0; i < value.length; i++) {
+      const item = value[i]
+      const normalized = isString(item) ? null : normalizeStyle(item)
+      if(normalized) {
+        for(const name in normalized) {
+          res[name] = normalized[name]
+        }
+      }
+    }
+    return res
+  } else if(isObject(value)) {
+    return value
+  }
+}
