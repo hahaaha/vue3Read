@@ -1,5 +1,5 @@
-import { isString, isObject, isArray } from "./shared"
-import { normalizeClass } from 'normalizeProp'
+import { isString } from "./shared"
+import { normalizeClass } from "./shared/normalizeProp"
 const normalizeKey = ({ key }) => (key != null ? key : null)
 
 const isVNode = (value) => {
