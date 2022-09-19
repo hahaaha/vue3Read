@@ -2,7 +2,7 @@ import { isString, isObject } from "./shared"
 import { normalizeClass, normalizeStyle } from "./shared/normalizeProp"
 const normalizeKey = ({ key }) => (key != null ? key : null)
 
-const isVNode = (value) => {
+export const isVNode = (value) => {
   return value ? value.__v_isVNode === true : false
 }
 
