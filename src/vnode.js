@@ -1,4 +1,5 @@
-import { isString, isObject } from "./shared"
+import { isString, isObject, isFunction } from "./shared"
+import {ShapeFlags} from './shared/shapeFlags'
 import { normalizeClass, normalizeStyle } from "./shared/normalizeProp"
 const normalizeKey = ({ key }) => (key != null ? key : null)
 
@@ -25,7 +26,7 @@ const mergeProps = (...args) => {
 }
 
 const cloneVNode = (vnode, extraProps) => {
-  const { props } = vnode
+  const { props, shapeFlag } = vnode
   const mergedProps = extraProps ? mergeProps(props, extraProps) : props
   const cloned = {
     __v_isVNode: true,
@@ -48,7 +49,7 @@ const cloneVNode = (vnode, extraProps) => {
     target: vnode.target,
     targetAnchor: vnode.targetAnchor,
     staticCount: vnode.staticCount,
-    // shapeFlag,
+    shapeFlag,
     // patchFlag,
     dynamicProps: vnode.dynamicProps,
     dynamicChildren: vnode.dynamicProps,
@@ -85,7 +86,16 @@ export const createVNode = (type, props, children) => {
     }
   }
 
-  return createBaseVNode(type, props, children)
+  // 开始计算shapeFlag
+  const shapeFlag = isString(type) 
+  ? ShapeFlags.ELEMENT
+  : isObject(type)
+  ? ShapeFlags.STATEFUL_COMPONENT
+  : isFunction(type)
+  ? ShapeFlags.FUNCTIONAL_COMPONENT
+  : 0
+
+  return createBaseVNode(type, props, children, 0, null, shapeFlag)
 }
 
 export const createBaseVNode = (
@@ -93,8 +103,8 @@ export const createBaseVNode = (
   props = null,
   children = null,
   patchFlag = 0,
-  dynamicProps = null
-  //   shapeFlag = type === Fragment ? 0 : ShapeFlags.ELEMENT,
+  dynamicProps = null,
+  shapeFlag = 0 
   //   isBlockNode = false,
   //   needFullChildrenNormalization = false
 ) => {
@@ -119,7 +129,7 @@ export const createBaseVNode = (
     target: null,
     targetAnchor: null,
     staticCount: 0,
-    // shapeFlag,
+    shapeFlag,
     patchFlag,
     dynamicProps,
     dynamicChildren: null,
